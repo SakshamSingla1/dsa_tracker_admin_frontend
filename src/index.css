@@ -1,0 +1,403 @@
+@import "tailwindcss";
+
+/* This file is a one-time copy of ../../frontend/src/index.css's token palette (not a
+   symlink -- see admin-frontend's design notes), kept in sync manually if the two apps'
+   look needs to match exactly. Drifting slightly over time is an acceptable tradeoff. */
+
+/* Tailwind v4 theme mapping -- these generate real utilities (bg-paper, text-ink,
+   border-line, rounded-lg, font-mono, ...) backed by the CSS custom properties
+   below, so the same token drives both Tailwind classes and any remaining
+   hand-written CSS during the migration. */
+@theme {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-line: var(--accent-line);
+
+  --color-todo: var(--todo);
+  --color-todo-soft: var(--todo-soft);
+  --color-done: var(--done);
+  --color-done-soft: var(--done-soft);
+  --color-revise: var(--revise);
+  --color-revise-soft: var(--revise-soft);
+
+  --color-easy: var(--easy);
+  --color-easy-soft: var(--easy-soft);
+  --color-medium: var(--medium);
+  --color-medium-soft: var(--medium-soft);
+  --color-hard: var(--hard);
+  --color-hard-soft: var(--hard-soft);
+
+  --color-cyan: var(--cyan);
+  --color-cyan-soft: var(--cyan-soft);
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-pill: 999px;
+}
+
+/* Explicit custom variant for the rare case a component needs more than a
+   token swap in dark mode (most color changes already flow through the
+   tokens below and need no variant at all). */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  --paper: #f7f7f8;
+  --paper-raised: #ffffff;
+  --ink: #111113;
+  --ink-soft: #6b7280;
+  --line: #e5e7eb;
+  --line-strong: #d1d5db;
+
+  --accent: #2563eb;
+  --accent-rgb: 37, 99, 235;
+  --accent-ink: #ffffff;
+  --accent-soft: #eff6ff;
+  --accent-line: #bfdbfe;
+  --ring-gradient-end: #2563eb;
+
+  --todo: #9ca3af;
+  --todo-soft: #f3f4f6;
+  --done: #16a34a;
+  --done-soft: #f0fdf4;
+  --revise: #d97706;
+  --revise-soft: #fffbeb;
+
+  --easy: #16a34a;
+  --easy-soft: #f0fdf4;
+  --medium: #d97706;
+  --medium-soft: #fffbeb;
+  --hard: #dc2626;
+  --hard-soft: #fef2f2;
+
+  --shadow: 0 1px 2px rgba(17, 17, 19, 0.04);
+  --shadow-md: 0 4px 12px rgba(17, 17, 19, 0.06);
+  --focus: #2563eb;
+
+  --cyan: #0891b2;
+  --cyan-soft: #ecfeff;
+
+  /* Kept only so not-yet-migrated legacy CSS (App.css) doesn't render with
+     undefined custom properties during the screen-by-screen rebuild. */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: var(--line);
+  --glass-blur: 12px;
+  --glass-shadow: var(--shadow);
+  --glass-shadow-hover: var(--shadow-md);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2.25rem;
+
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0b0a1d;
+    --paper-raised: #16142c;
+    --ink: #f3f1fb;
+    --ink-soft: #9b96b5;
+    --line: #2a2750;
+    --line-strong: #3d386b;
+
+    --accent: #8b5cf6;
+    --accent-rgb: 139, 92, 246;
+    --accent-ink: #ffffff;
+    --accent-soft: #241f44;
+    --accent-line: #453a7a;
+    --ring-gradient-end: #c026d3;
+
+    --todo: #716c93;
+    --todo-soft: #1c1a38;
+    --done: #22c55e;
+    --done-soft: #0f2e1a;
+    --revise: #fb923c;
+    --revise-soft: #3a2210;
+
+    --easy: #22c55e;
+    --easy-soft: #0f2e1a;
+    --medium: #fb923c;
+    --medium-soft: #3a2210;
+    --hard: #f43f5e;
+    --hard-soft: #3a1220;
+
+    --cyan: #22d3ee;
+    --cyan-soft: #0e2f38;
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 8px 24px rgba(76, 29, 149, 0.25);
+
+    --glass-bg: rgba(22, 20, 44, 0.7);
+    --glass-border: var(--line);
+    --glass-blur: 14px;
+    --glass-shadow: var(--shadow);
+    --glass-shadow-hover: var(--shadow-md);
+
+    color-scheme: dark;
+  }
+}
+
+/* Explicit theme choice from the toggle in the header wins over the OS setting either way. */
+:root[data-theme="dark"] {
+  --paper: #0b0a1d;
+  --paper-raised: #16142c;
+  --ink: #f3f1fb;
+  --ink-soft: #9b96b5;
+  --line: #2a2750;
+  --line-strong: #3d386b;
+
+  --accent: #8b5cf6;
+  --accent-rgb: 139, 92, 246;
+  --accent-ink: #ffffff;
+  --accent-soft: #241f44;
+  --accent-line: #453a7a;
+  --ring-gradient-end: #c026d3;
+
+  --todo: #716c93;
+  --todo-soft: #1c1a38;
+  --done: #22c55e;
+  --done-soft: #0f2e1a;
+  --revise: #fb923c;
+  --revise-soft: #3a2210;
+
+  --easy: #22c55e;
+  --easy-soft: #0f2e1a;
+  --medium: #fb923c;
+  --medium-soft: #3a2210;
+  --hard: #f43f5e;
+  --hard-soft: #3a1220;
+
+  --cyan: #22d3ee;
+  --cyan-soft: #0e2f38;
+
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 8px 24px rgba(76, 29, 149, 0.25);
+
+  --glass-bg: rgba(22, 20, 44, 0.7);
+  --glass-border: var(--line);
+  --glass-blur: 14px;
+  --glass-shadow: var(--shadow);
+  --glass-shadow-hover: var(--shadow-md);
+
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --paper: #f7f7f8;
+  --paper-raised: #ffffff;
+  --ink: #111113;
+  --ink-soft: #6b7280;
+  --line: #e5e7eb;
+  --line-strong: #d1d5db;
+
+  --accent: #2563eb;
+  --accent-rgb: 37, 99, 235;
+  --accent-ink: #ffffff;
+  --accent-soft: #eff6ff;
+  --accent-line: #bfdbfe;
+  --ring-gradient-end: #2563eb;
+
+  --todo: #9ca3af;
+  --todo-soft: #f3f4f6;
+  --done: #16a34a;
+  --done-soft: #f0fdf4;
+  --revise: #d97706;
+  --revise-soft: #fffbeb;
+
+  --easy: #16a34a;
+  --easy-soft: #f0fdf4;
+  --medium: #d97706;
+  --medium-soft: #fffbeb;
+  --hard: #dc2626;
+  --hard-soft: #fef2f2;
+
+  --shadow: 0 1px 2px rgba(17, 17, 19, 0.04);
+  --shadow-md: 0 4px 12px rgba(17, 17, 19, 0.06);
+  --focus: #2563eb;
+
+  --cyan: #0891b2;
+  --cyan-soft: #ecfeff;
+
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: var(--line);
+  --glass-blur: 12px;
+  --glass-shadow: var(--shadow);
+  --glass-shadow-hover: var(--shadow-md);
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-sans);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  margin: 0;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+a {
+  color: var(--accent);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, filter 0.15s ease, transform 0.08s ease;
+}
+
+button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+/* Thin, theme-aware scrollbars -- the default OS scrollbar reads jarringly
+   against the dark-neon surfaces (sidebar topic list, overflow panels). */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+  background-clip: padding-box;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(var(--accent-rgb), 0);
+  }
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-in-up 0.4s var(--ease-smooth) both;
+}
+
+.animate-float {
+  animation: float-y 4.5s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2.2s ease-in-out infinite;
+}
+
+.glow-accent {
+  box-shadow: 0 0 0 1px rgba(var(--accent-rgb), 0.3), 0 6px 20px -4px rgba(var(--accent-rgb), 0.45);
+}
+
+.hover-lift {
+  transition: transform 0.2s var(--ease-smooth), box-shadow 0.2s var(--ease-smooth), border-color 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
