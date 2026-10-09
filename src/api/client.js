@@ -58,3 +58,10 @@ export function loginUser(email, password) {
     body: JSON.stringify({ email, password }),
   });
 }
+
+export function registerUser(email, password, displayName) {
+  return request("/auth/register", {
+    method: "POST",
+    body: JSON.stringify({ email, password, displayName }),
+  });
+}

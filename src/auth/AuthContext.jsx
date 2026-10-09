@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { ApiError, loginUser, setToken } from "../api/client.js";
+import { ApiError, loginUser, registerUser, setToken } from "../api/client.js";
 
 const USER_KEY = "dsa-admin-user";
 const AuthContext = createContext(null);
@@ -49,13 +49,30 @@ export function AuthProvider({ children }) {
     return nextUser;
   };
 
+  /** A freshly registered account has no role yet (permissions: []) until a Super Admin
+   *  assigns one -- still logs them in immediately, same as the backend's one register
+   *  endpoint always has, just with nothing to do in the admin UI until that happens. */
+  const register = async (email, password, displayName) => {
+    const res = await registerUser(email, password, displayName);
+    const nextUser = {
+      id: res.userId,
+      email: res.email,
+      displayName: res.displayName,
+      permissions: res.permissions ?? [],
+    };
+    setToken(res.token);
+    persistUser(nextUser);
+    setUser(nextUser);
+    return nextUser;
+  };
+
   const logout = () => {
     setToken(null);
     persistUser(null);
     setUser(null);
   };
 
-  const value = useMemo(() => ({ user, login, logout }), [user]);
+  const value = useMemo(() => ({ user, login, register, logout }), [user]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

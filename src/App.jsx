@@ -3,6 +3,7 @@ import RequireAuth from "./auth/RequireAuth.jsx";
 import RequirePermission from "./auth/RequirePermission.jsx";
 import AdminLayout from "./layout/AdminLayout.jsx";
 import LoginPage from "./pages/Login.page.jsx";
+import RegisterPage from "./pages/Register.page.jsx";
 import DashboardPage from "./pages/Dashboard.page.jsx";
 import SheetListPage from "./pages/sheets/SheetList.page.jsx";
 import TopicListPage from "./pages/topics/TopicList.page.jsx";
@@ -15,6 +16,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
 
       <Route element={<RequireAuth />}>
         <Route element={<AdminLayout />}>
